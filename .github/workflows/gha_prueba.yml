@@ -1,0 +1,22 @@
+name: Ejecutar Scraping
+
+on: [push]
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'  # Cambia '3.x' por la versión de Python que necesites
+
+      - name: Install nbconvert
+        run: pip install nbconvert
+
+      - name: Execute Jupyter Notebook
+        run: jupyter nbconvert --to notebook --execute Actividad1.ipynb --output Actividad1_output.ipynb
