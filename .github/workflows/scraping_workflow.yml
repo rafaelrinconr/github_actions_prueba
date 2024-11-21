@@ -1,24 +1,42 @@
-name: Ejecutar Scraping
+name: Deploy and Run Jupyter Notebook
 
-on: [push]
+on:
+  push:
+    branches:
+      - main  # Cambia si necesitas que funcione en otra rama
 
 jobs:
-  scrape:
+  run-notebook:
     runs-on: ubuntu-latest
 
     steps:
+      # Paso 1: Chequear el repositorio
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
+      # Paso 2: Configurar Python
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.x'  # Cambia '3.x' por la versión de Python que necesites
+          python-version: '3.9'  # Cambia según lo que uses
 
+      # Paso 3: Instalar dependencias
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install nbconvert pandas requests beautifulsoup4
+          pip install -r requirements.txt
 
-      - name: Execute Jupyter Notebook
-        run: jupyter nbconvert --to notebook --execute Actividad1.ipynb --output Actividad1_output.ipynb
+      # Paso 4: Ejecutar el notebook
+      - name: Run Jupyter Notebook
+        run: |
+          echo "Ejecutando el notebook..."
+          jupyter nbconvert --to notebook --execute Actividad1.ipynb --output Actividad1_output.ipynb
+
+      # Paso 5: Subir el resultado
+      - name: Commit and Push Output
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add Actividad1_output.ipynb
+          git commit -m "Add executed notebook output"
+          git push
