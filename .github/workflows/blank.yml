@@ -17,7 +17,7 @@ jobs:  # Define los trabajos que se ejecutarán en el workflow.
     - name: Set up Python  # Nombre del paso.
       uses: actions/setup-python@v2  # Usa la acción para configurar la versión de Python.
       with:
-        python-version: '3.12.4'  # Especifica la versión de Python a usar.
+        python-version: '3.x'  # Especifica la versión de Python a usar.
 
     - name: Install dependencies  # Nombre del paso.
       run: |  # Ejecuta una serie de comandos de shell.
@@ -26,11 +26,5 @@ jobs:  # Define los trabajos que se ejecutarán en el workflow.
         pip install beautifulsoup4  # Instala la librería BeautifulSoup4.
         pip install pandas  # Instala la librería pandas.
 
-    - name: Install Jupyter  # Nombre del paso.
-      run: pip install jupyter  # Instala Jupyter.
-
-    - name: Convert and run Jupyter notebook  # Nombre del paso.
-      run: |  # Ejecuta una serie de comandos de shell.
-        jupyter nbconvert --to script Actividad1.ipynb  # Convierte el notebook a un script de Python.
-        python Actividad1.py  # Ejecuta el script convertido.
-
+    - name: Run scraping script  # Nombre del paso.
+      run: python Actividad1.ipynb  # Ejecuta el script de scraping (asumiendo que es un script de Python).
